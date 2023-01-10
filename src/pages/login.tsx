@@ -1,20 +1,36 @@
-import { NextPage } from "next";
-import { signIn } from "next-auth/react";
+import { NextPage, NextPageContext } from "next";
+import { Provider, ProviderType } from "next-auth/providers";
+import { signIn, getProviders } from "next-auth/react";
 import React from "react";
 
-const login: NextPage = () => {
+const login = ({ providers }: { providers: Provider[] }) => {
   return (
-    <div className="h-screen w-full items-center justify-center">
-      <button
-        className="cursor-pointer rounded-md bg-blue-400 px-4 py-2 text-white"
-        onClick={() => {
-          signIn();
-        }}
-      >
-        login
-      </button>
+    <div className=" flex h-screen w-full items-center justify-center ">
+      <div className="mx-auto  flex w-full max-w-md flex-col items-center gap-2">
+        {Object.values(providers).map((provider) => (
+          <div key={provider.name}>
+            <button
+              className="  rounded-md bg-red-400 px-2 py-2 text-white"
+              onClick={() => {
+                signIn(provider.id);
+              }}
+            >
+              login with {provider.name}
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
 export default login;
+
+export const getServerSideProps = async (context: NextPageContext) => {
+  const providers = await getProviders();
+  return {
+    props: {
+      providers,
+    },
+  };
+};
