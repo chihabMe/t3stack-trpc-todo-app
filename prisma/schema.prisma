@@ -47,6 +47,14 @@ model Session {
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
+
 model User {
     id            String    @id @default(cuid())
     name          String?
@@ -55,18 +63,28 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    Todos         Todo[]
+    Projects      Project[]
 }
 
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
-
-    @@unique([identifier, token])
+model Project {
+    id      String   @id @default(cuid())
+    name    String
+    todos   Todo[]
+    User    User?    @relation(fields: [userId], references: [id])
+    userId  String?
+    created DateTime @default(now())
+    updated DateTime @updatedAt
 }
-model Todo{
-    identifier String @id @default(cuid()) 
-    body String 
-    done Boolean
 
+model Todo {
+    id        String   @id @default(cuid())
+    body      String
+    done      Boolean  @default(false)
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String
+    created   DateTime @default(now())
+    updated   DateTime @updatedAt
+    Project   Project? @relation(fields: [projectId], references: [id])
+    projectId String?
 }
