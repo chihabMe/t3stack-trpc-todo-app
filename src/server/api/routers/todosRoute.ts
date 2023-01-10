@@ -1,14 +1,16 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 export const todosRouter = createTRPCRouter({
-  getAllTodos: publicProcedure.query(({ ctx }) => {
-    if (!ctx.session?.user) return [];
-    const user = ctx.prisma.user.findFirst({
+  getAllTodos: protectedProcedure.query(({ ctx }) => {
+    const todos = ctx.prisma.todo.findMany({
       where: {
-        id: ctx.session.user.id,
+        userId: ctx.session.user.id,
+      },
+      orderBy: {
+        created: "asc",
       },
     });
-    return user.Todos();
+    return todos;
   }),
   addTodo: protectedProcedure
     .input(
