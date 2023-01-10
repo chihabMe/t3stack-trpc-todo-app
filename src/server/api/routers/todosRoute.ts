@@ -28,6 +28,22 @@ export const todosRouter = createTRPCRouter({
       });
       return todo;
     }),
+  removeTodo: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      const user = ctx.session.user;
+      const todo = ctx.prisma.todo.deleteMany({
+        where: {
+          id: input.id,
+          userId: user.id,
+        },
+      });
+      return todo;
+    }),
   markAsDone: protectedProcedure
     .input(
       z.object({

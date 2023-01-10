@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FormEvent, useEffect } from "react";
 import { api } from "../../utils/api";
 interface Props {
   body: string;
@@ -7,21 +7,47 @@ interface Props {
   created: Date;
 }
 const TodoItem = ({ body, id, done, created }: Props) => {
-  const { mutateAsync: markAdDone } = api.todos.markAsDone.useMutation();
+  const utils = api.useContext();
+  const { mutateAsync: markAdDone, mutate } = api.todos.markAsDone.useMutation({
+    onSuccess(input) {
+      utils.todos.invalidate();
+    },
+  });
+  const { mutateAsync: deleteTodo } = api.todos.removeTodo.useMutation();
   const toggleDone = () => {
     markAdDone({ done: !done, id });
+  };
+  const deleteTodoHandler = () => {
+    deleteTodo(
+      { id },
+      {
+        onSuccess(input) {
+          utils.todos.invalidate();
+        },
+      }
+    );
   };
   return (
     <li
       onClick={() => {
         toggleDone();
       }}
-      className=""
+      className=" h-10 "
     >
-      <span className="text-gray-300">
-        {!done && <del>{body}</del>}
-        {done && body}
-      </span>
+      <div className="flex justify-between text-gray-300">
+        <span>
+          {done && <del>{body}</del>}
+          {!done && body}
+        </span>
+        <div
+          className="h-5 w-5 rounded-md bg-red-400 text-center text-sm text-white outline-2 outline-red-300 hover:outline"
+          onClick={() => {
+            deleteTodoHandler();
+          }}
+        >
+          X
+        </div>
+      </div>
     </li>
   );
 };

@@ -4,6 +4,7 @@ import Loader from "../../components/ui/Loader";
 import { api } from "../../utils/api";
 
 const AddTodoForm = () => {
+  const utils = api.useContext();
   const {
     mutateAsync: addTodo,
     isSuccess,
@@ -13,9 +14,16 @@ const AddTodoForm = () => {
   const todoSubmitHandler = (e: FormEvent) => {
     e.preventDefault();
     if (todoBody.trim().length >= 1) {
-      addTodo({
-        body: todoBody,
-      });
+      addTodo(
+        {
+          body: todoBody,
+        },
+        {
+          onSuccess(input) {
+            utils.todos.invalidate();
+          },
+        }
+      );
     }
   };
   useEffect(() => {
