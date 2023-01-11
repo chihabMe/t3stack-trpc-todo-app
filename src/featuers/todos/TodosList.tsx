@@ -15,11 +15,9 @@ const TodosList = () => {
 
   return (
     <ul className="  menu rounded-box flex w-full  flex-col gap-2 bg-base-100 p-2 px-2 text-lg font-medium text-black">
-      <AnimatePresence>
-        {todos?.map((todo) => {
-          return <TodoItem key={todo.id} {...todo} />;
-        })}
-      </AnimatePresence>
+      {todos?.map((todo) => {
+        return <TodoItem key={todo.id} {...todo} />;
+      })}
     </ul>
   );
 };

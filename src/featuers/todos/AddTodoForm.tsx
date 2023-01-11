@@ -1,3 +1,4 @@
+import { Todo } from "@prisma/client";
 import React, { FormEvent, useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
 import Loader from "../../components/ui/Loader";
@@ -14,28 +15,36 @@ const AddTodoForm = () => {
   const todoSubmitHandler = (e: FormEvent) => {
     e.preventDefault();
     if (todoBody.trim().length >= 1) {
+      const todos = utils.todos.getAllTodos.getData();
+      const newTodo: Todo = {
+        body: todoBody,
+        created: new Date(),
+        updated: new Date(),
+        id: new Date().toDateString(),
+        done: false,
+        projectId: "1",
+        userId: "1",
+      };
+      if (todos)
+        utils.todos.getAllTodos.setData((() => {})(), [...todos, newTodo]);
+      else utils.todos.getAllTodos.setData((() => {})(), [newTodo]);
+      setTodoBody("");
       addTodo(
         {
           body: todoBody,
         },
         {
-          onSuccess(input) {
-            const todos = utils.todos.getAllTodos.getData();
-            if (todos)
-              utils.todos.getAllTodos.setData(undefined, [...todos, input]);
-            else utils.todos.getAllTodos.setData(undefined, [input]);
-
+          async onSuccess(input) {
             utils.todos.invalidate();
           },
         }
       );
     }
   };
-  useEffect(() => {
-    if (isSuccess && !isLoading) {
-      setTodoBody("");
-    }
-  }, [isLoading, isSuccess]);
+  // useEffect(() => {
+  //   if (isSuccess && !isLoading) {
+  //   }
+  // }, [isLoading, isSuccess]);
   return (
     <form
       onSubmit={todoSubmitHandler}
