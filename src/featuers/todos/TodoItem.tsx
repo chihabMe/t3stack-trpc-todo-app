@@ -10,6 +10,13 @@ const TodoItem = ({ body, id, done, created }: Props) => {
   const utils = api.useContext();
   const { mutateAsync: markAdDone, mutate } = api.todos.markAsDone.useMutation({
     onSuccess(input) {
+      const todos = utils.todos.getAllTodos.getData();
+      utils.todos.getAllTodos.setData(
+        (() => {})(),
+        todos?.map((todo) =>
+          todo.id != id ? todo : { ...todo, done: input.done }
+        )
+      );
       utils.todos.invalidate();
     },
   });
@@ -22,6 +29,11 @@ const TodoItem = ({ body, id, done, created }: Props) => {
       { id },
       {
         onSuccess(input) {
+          const todos = utils.todos.getAllTodos.getData();
+          utils.todos.getAllTodos.setData(
+            (() => {})(),
+            todos?.filter((todo) => todo.id != id)
+          );
           utils.todos.invalidate();
         },
       }
