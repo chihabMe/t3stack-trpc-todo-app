@@ -22,10 +22,10 @@ const SideBar = () => {
     <>
       <label
         htmlFor="my-drawer"
-        className=" drawer-button btn-ghost btn    z-30"
+        className=" btn-ghost drawer-button btn    z-30"
         onClick={clickHandler}
       >
-        <Bars3Icon className="h-7 w-7 text-primary" />
+        <Bars3Icon className="h-7 w-7 text-gray-800 dark:text-gray-200" />
       </label>
 
       <div

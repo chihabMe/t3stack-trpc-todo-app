@@ -12,7 +12,7 @@ const SideBarTypesSection = () => {
     <ul className="flex flex-col ">
       <SideBarItem className="flex-start  !justify-start   ">
         <div className="p-0 hover:bg-transparent">
-          <InboxIcon className="  h-6 w-6 text-primary " />
+          <InboxIcon className="  h-6 w-6 text-gray-800 dark:text-gray-200 " />
         </div>
         <span className=" text-sm font-bold capitalize  text-gray-700  hover:bg-transparent dark:text-gray-100">
           inbox

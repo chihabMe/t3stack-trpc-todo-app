@@ -43,7 +43,7 @@ const CreateProjectModal = () => {
                 }}
                 type="text"
                 placeholder="Project name"
-                className="input-bordered input-primary input w-full text-primary  "
+                className="input-bordered input-primary input w-full text-gray-700 dark:text-gray-200  "
               />
               <div className="modal-action">
                 <div className="flex-end flex items-center gap-4">
@@ -53,6 +53,7 @@ const CreateProjectModal = () => {
                   >
                     cancel
                   </label>
+                  <button className="btn-primary btn lowercase">create</button>
                 </div>
               </div>
             </form>
