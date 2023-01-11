@@ -22,8 +22,8 @@ const AddTodoForm = () => {
           onSuccess(input) {
             const todos = utils.todos.getAllTodos.getData();
             if (todos)
-              utils.todos.getAllTodos.setData((() => {})(), [...todos, input]);
-            else utils.todos.getAllTodos.setData((() => {})(), [input]);
+              utils.todos.getAllTodos.setData(undefined, [...todos, input]);
+            else utils.todos.getAllTodos.setData(undefined, [input]);
 
             utils.todos.invalidate();
           },

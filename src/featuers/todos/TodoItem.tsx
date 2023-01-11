@@ -12,7 +12,7 @@ const TodoItem = ({ body, id, done, created }: Props) => {
     onSuccess(input) {
       const todos = utils.todos.getAllTodos.getData();
       utils.todos.getAllTodos.setData(
-        (() => {})(),
+        undefined,
         todos?.map((todo) =>
           todo.id != id ? todo : { ...todo, done: input.done }
         )
