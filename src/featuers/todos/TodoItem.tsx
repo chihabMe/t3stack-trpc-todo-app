@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import React, { FormEvent, useEffect } from "react";
 import { api } from "../../utils/api";
 interface Props {
@@ -38,7 +39,18 @@ const TodoItem = ({ body, id, done, created }: Props) => {
     );
   };
   return (
-    <li
+    <motion.li
+      initial={{
+        opacity: 0,
+      }}
+      animate={{ opacity: 1 }}
+      exit={{
+        opacity: 0,
+        scale: 0.9,
+        x: "5%",
+        y: "5%",
+        rotate: -2,
+      }}
       onClick={() => {
         toggleDone();
       }}
@@ -54,11 +66,9 @@ const TodoItem = ({ body, id, done, created }: Props) => {
           onClick={() => {
             deleteTodoHandler();
           }}
-        >
-          X
-        </div>
+        ></div>
       </div>
-    </li>
+    </motion.li>
   );
 };
 
