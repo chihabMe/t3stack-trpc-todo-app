@@ -10,9 +10,8 @@ const Home: NextPage = () => (
   <ProtectedRoute>
     <Header />
     <div className="mx-auto w-full max-w-md flex-col gap-4">
-      <UserInfos />
-      <AddTodoForm />
       <TodosList />
+      <AddTodoForm />
     </div>
   </ProtectedRoute>
 );

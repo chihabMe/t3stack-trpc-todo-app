@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { api } from "../utils/api";
 
 import "../styles/globals.css";
+import SideBar from "../components/SideBar/SideBar";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
