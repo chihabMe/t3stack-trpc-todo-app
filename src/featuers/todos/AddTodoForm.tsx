@@ -28,8 +28,8 @@ const AddTodoForm = () => {
         userId: "1",
       };
       if (todos)
-        utils.todos.getAllTodos.setData((() => {})(), [...todos, newTodo]);
-      else utils.todos.getAllTodos.setData((() => {})(), [newTodo]);
+        utils.todos.getAllTodos.setData(undefined, [...todos, newTodo]);
+      else utils.todos.getAllTodos.setData(undefined, [newTodo]);
       setTodoBody("");
       addTodo(
         {
