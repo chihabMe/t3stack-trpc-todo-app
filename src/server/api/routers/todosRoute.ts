@@ -34,15 +34,14 @@ export const todosRouter = createTRPCRouter({
         id: z.string(),
       })
     )
-    .mutation(({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const user = ctx.session.user;
-      const todo = ctx.prisma.todo.deleteMany({
+      const todo = await ctx.prisma.todo.deleteMany({
         where: {
           id: input.id,
           userId: user.id,
         },
       });
-      return todo;
     }),
   markAsDone: protectedProcedure
     .input(

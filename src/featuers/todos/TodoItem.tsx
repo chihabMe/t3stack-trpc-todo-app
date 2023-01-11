@@ -10,30 +10,28 @@ const TodoItem = ({ body, id, done, created }: Props) => {
   const utils = api.useContext();
   const { mutateAsync: markAdDone, mutate } = api.todos.markAsDone.useMutation({
     onSuccess(input) {
-      const todos = utils.todos.getAllTodos.getData();
-      utils.todos.getAllTodos.setData(
-        undefined,
-        todos?.map((todo) =>
-          todo.id != id ? todo : { ...todo, done: input.done }
-        )
-      );
       utils.todos.invalidate();
     },
   });
   const { mutateAsync: deleteTodo } = api.todos.removeTodo.useMutation();
   const toggleDone = () => {
+    const todos = utils.todos.getAllTodos.getData();
+    utils.todos.getAllTodos.setData(
+      undefined,
+      todos?.map((todo) => (todo.id != id ? todo : { ...todo, done: !done }))
+    );
     markAdDone({ done: !done, id });
   };
   const deleteTodoHandler = () => {
+    const todos = utils.todos.getAllTodos.getData();
+    utils.todos.getAllTodos.setData(
+      undefined,
+      todos?.filter((todo) => todo.id != id)
+    );
     deleteTodo(
       { id },
       {
         onSuccess(input) {
-          const todos = utils.todos.getAllTodos.getData();
-          utils.todos.getAllTodos.setData(
-            undefined,
-            todos?.filter((todo) => todo.id != id)
-          );
           utils.todos.invalidate();
         },
       }
