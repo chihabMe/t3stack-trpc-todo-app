@@ -1,11 +1,13 @@
 import { NextPage, NextPageContext } from "next";
+import { unstable_getServerSession } from "next-auth";
 import { Provider, ProviderType } from "next-auth/providers";
 import { signIn, getProviders, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React from "react";
 import { getServerAuthSession } from "../server/auth";
+import { authOptions } from "./api/auth/[...nextauth]";
 
-const login = ({ providers }: { providers: Provider[] }) => {
+const Login: NextPage<{ providers: Provider[] }> = ({ providers }) => {
   const { status } = useSession();
   const router = useRouter();
   if (status == "authenticated") {
@@ -31,7 +33,7 @@ const login = ({ providers }: { providers: Provider[] }) => {
   );
 };
 
-export default login;
+export default Login;
 
 export const getServerSideProps = async (context: NextPageContext) => {
   const providers = await getProviders();
