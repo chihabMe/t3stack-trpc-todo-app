@@ -69,20 +69,20 @@ const AddTodoForm = () => {
         onChange={(e) => {
           setTodoBody(e.currentTarget.value);
         }}
-        className="textarea-primary textarea resize-none"
+        className="textarea-primary textarea resize-none text-gray-200"
         placeholder="task..."
       ></textarea>
       <div className=" flex  justify-end gap-4 py-4">
         <div
-          className="btn-error flex h-9 cursor-pointer items-center  justify-center rounded-md px-7 text-center text-xs font-medium uppercase text-white"
+          className="btn-error flex  h-9 cursor-pointer items-center  justify-center rounded-md px-7 text-center text-xs font-bold uppercase text-white hover:opacity-90"
           onClick={() => {
             setShowInput(false);
           }}
         >
           close
         </div>
-        <button className="btn-primary flex h-9 items-center  justify-center rounded-md px-7 text-center text-xs font-medium uppercase text-white">
-          {!isLoading && "add"}
+        <button className="btn-primary flex h-9 items-center  justify-center rounded-md px-7 text-center text-xs font-bold uppercase text-white">
+          {!isLoading && "add task"}
           {isLoading && "adding"}
         </button>
       </div>
