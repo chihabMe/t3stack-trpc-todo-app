@@ -31,7 +31,7 @@ const TodoItem = ({ body, id, done, created }: Props) => {
         onSuccess(input) {
           const todos = utils.todos.getAllTodos.getData();
           utils.todos.getAllTodos.setData(
-            (() => {})(),
+            undefined,
             todos?.filter((todo) => todo.id != id)
           );
           utils.todos.invalidate();
