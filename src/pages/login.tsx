@@ -1,9 +1,16 @@
 import { NextPage, NextPageContext } from "next";
 import { Provider, ProviderType } from "next-auth/providers";
-import { signIn, getProviders } from "next-auth/react";
+import { signIn, getProviders, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import React from "react";
+import { getServerAuthSession } from "../server/auth";
 
 const login = ({ providers }: { providers: Provider[] }) => {
+  const { status } = useSession();
+  const router = useRouter();
+  if (status == "authenticated") {
+    router.push("/");
+  }
   return (
     <div className=" flex h-screen w-full items-center justify-center ">
       <div className="mx-auto  flex w-full max-w-md flex-col items-center gap-2">
