@@ -23,16 +23,16 @@ const Header = () => {
               </div>
             </div>
             <Link href="/" className="btn-ghost btn text-xl normal-case">
-              <HomeIcon className="h-7 w-7 text-gray-300" />
+              <HomeIcon className="h-7 w-7 text-primary " />
             </Link>
           </div>
 
           <div className="flex-none  ">
             <div className="btn-ghost btn cursor-pointer">
-              <PlusIcon className="h-7 w-7  text-gray-200" />
+              <PlusIcon className="h-7 w-7  text-primary" />
             </div>
             <div className="btn-ghost btn">
-              <BellIcon className="h-7 w-7  text-gray-200" />
+              <BellIcon className="h-7 w-7  text-primary" />
             </div>
             <div className="dropdown-end dropdown">
               <label tabIndex={0} className="btn-ghost btn-circle avatar btn">

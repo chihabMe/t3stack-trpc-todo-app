@@ -14,7 +14,7 @@ const SideBarTypesSection = () => {
         <div className="p-0 hover:bg-transparent">
           <InboxIcon className="  h-6 w-6 text-primary " />
         </div>
-        <span className=" text-sm font-bold  capitalize hover:bg-transparent">
+        <span className=" text-sm font-bold capitalize  text-gray-700  hover:bg-transparent dark:text-gray-100">
           inbox
         </span>
       </SideBarItem>
@@ -22,15 +22,15 @@ const SideBarTypesSection = () => {
         <div className="p-0 hover:bg-transparent">
           <CalendarIcon className="  h-6 w-6 text-secondary " />
         </div>
-        <span className=" text-sm font-bold  capitalize hover:bg-transparent">
+        <span className=" text-sm font-bold capitalize  text-gray-700  hover:bg-transparent dark:text-gray-100">
           today
         </span>
       </SideBarItem>
       <SideBarItem className="flex-start  !justify-start   ">
         <div className="p-0 hover:bg-transparent">
-          <HashtagIcon className="  text-cyan-800k h-6 w-6 " />
+          <HashtagIcon className="  h-6 w-6 text-cyan-800 " />
         </div>
-        <span className=" text-sm font-bold  capitalize hover:bg-transparent">
+        <span className=" text-sm font-bold capitalize  text-gray-700  hover:bg-transparent dark:text-gray-100">
           tags
         </span>
       </SideBarItem>

@@ -72,7 +72,7 @@ const TodoItem = ({ body, id, done, created }: Props) => {
         }}
         className=" h-8  "
       >
-        <div className="flex  py-2 text-gray-300 active:animate-bounce">
+        <div className="flex  py-2 text-gray-700 dark:text-gray-100  ">
           <div
             onClick={() => {
               toggleDone();

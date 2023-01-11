@@ -9,7 +9,7 @@ const SideBarItem = ({
 }) => {
   return (
     <li
-      className={`flex cursor-pointer flex-row items-center justify-between rounded-md px-2 text-sm  font-medium hover:bg-gray-700 ${className} `}
+      className={`flex cursor-pointer flex-row items-center justify-between rounded-md px-2 text-sm font-medium  hover:bg-gray-300 hover:text-primary  dark:hover:bg-gray-800 ${className} `}
     >
       {children}
     </li>

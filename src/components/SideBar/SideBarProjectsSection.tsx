@@ -19,8 +19,10 @@ const SideBarProjectsSection = () => {
       </div>
       {projects?.map((project) => (
         <SideBarItem key={project.id}>
-          <span className="hover:bg-transparent">{project.name}</span>
-          <span className="badge-primary badge indicator-item !h-6 !w-6 !rounded-full !p-2 !text-xs">
+          <span className="text-gray-700 hover:bg-transparent dark:text-gray-100">
+            {project.name}
+          </span>
+          <span className="badge-primary badge indicator-item !h-6 !w-6 !rounded-full !p-2 !text-xs text-gray-700 dark:text-gray-100">
             {project._count.todos}
           </span>
         </SideBarItem>

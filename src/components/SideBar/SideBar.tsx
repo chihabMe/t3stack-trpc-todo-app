@@ -22,16 +22,16 @@ const SideBar = () => {
     <>
       <label
         htmlFor="my-drawer"
-        className=" btn-ghost drawer-button btn    z-30"
+        className=" drawer-button btn-ghost btn    z-30"
         onClick={clickHandler}
       >
-        <Bars3Icon className="h-7 w-7 text-gray-300" />
+        <Bars3Icon className="h-7 w-7 text-primary" />
       </label>
 
       <div
         className={` ${
           !isOpen && "!-z-10"
-        } drawer-start drawer fixed h-screen w-full rounded-lg ${fullPage} `}
+        } drawer-start  drawer fixed h-screen w-full rounded-lg ${fullPage} `}
       >
         <input
           id="my-drawer"

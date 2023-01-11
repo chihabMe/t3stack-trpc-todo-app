@@ -5,7 +5,7 @@ const _document = () => {
   return (
     <Html>
       <Head />
-      <body>
+      <body className="dark" data-theme="dark">
         <div id="overlay"></div>
         <div id="modal"></div>
         <Main />

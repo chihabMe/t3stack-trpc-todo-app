@@ -9,10 +9,12 @@ import Header from "../components/ui/Header";
 const Home: NextPage = () => (
   <ProtectedRoute>
     <Header />
-    <div className="mx-auto w-full max-w-md flex-col gap-4">
-      <TodosList />
-      <AddTodoForm />
-    </div>
+    <main className="min-h-screen">
+      <div className="mx-auto w-full max-w-md flex-col gap-4">
+        <TodosList />
+        <AddTodoForm />
+      </div>
+    </main>
   </ProtectedRoute>
 );
 

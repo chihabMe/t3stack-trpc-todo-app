@@ -69,7 +69,7 @@ const AddTodoForm = () => {
         onChange={(e) => {
           setTodoBody(e.currentTarget.value);
         }}
-        className="textarea-primary textarea resize-none text-gray-200"
+        className="textarea-primary textarea resize-none text-primary"
         placeholder="task..."
       ></textarea>
       <div className=" flex  justify-end gap-4 py-4">
