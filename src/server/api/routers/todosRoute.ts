@@ -12,6 +12,30 @@ export const todosRouter = createTRPCRouter({
     });
     return todos;
   }),
+  getAllTodosByProject: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const project = await ctx.prisma.project.findFirst({
+        where: {
+          id: input.projectId,
+        },
+      });
+      if (!project) return null;
+      const todos = await ctx.prisma.todo.findMany({
+        where: {
+          userId: ctx.session.user.id,
+          projectId: project.id,
+        },
+        orderBy: {
+          created: "asc",
+        },
+      });
+      return todos;
+    }),
   addTodo: protectedProcedure
     .input(
       z.object({
