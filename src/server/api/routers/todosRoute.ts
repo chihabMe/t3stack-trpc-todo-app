@@ -28,6 +28,32 @@ export const todosRouter = createTRPCRouter({
       });
       return todo;
     }),
+  addProjectTodo: protectedProcedure
+    .input(
+      z.object({
+        body: z.string(),
+        projectId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const project = await ctx.prisma.project.findFirst({
+        where: {
+          id: input.projectId,
+        },
+      });
+      console.log(project);
+      if (!project) return null;
+      const todo = ctx.prisma.todo.create({
+        data: {
+          body: input.body,
+          projectId: project.id,
+          userId: ctx.session.user.id,
+          done: false,
+        },
+      });
+      console.log(todo);
+      return todo;
+    }),
   removeTodo: protectedProcedure
     .input(
       z.object({

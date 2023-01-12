@@ -1,4 +1,5 @@
 import { PlusIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
 import React from "react";
 import { api } from "../../utils/api";
 import CreateProjectModal from "../Modals/CreateProjectModal";
@@ -18,14 +19,16 @@ const SideBarProjectsSection = () => {
         <CreateProjectModal />
       </div>
       {projects?.map((project) => (
-        <SideBarItem key={project.id}>
-          <span className="text-gray-700 hover:bg-transparent dark:text-gray-100">
-            {project.name}
-          </span>
-          <span className="badge-primary badge indicator-item !h-6 !w-6 !rounded-full !p-2 !text-xs text-gray-700 dark:text-gray-100">
-            {project._count.todos}
-          </span>
-        </SideBarItem>
+        <Link key={project.id} href={`/project/${project.id}`}>
+          <SideBarItem>
+            <span className="text-gray-700 hover:bg-transparent dark:text-gray-100">
+              {project.name}
+            </span>
+            <span className="badge-primary badge indicator-item !h-6 !w-6 !rounded-full !p-2 !text-xs text-gray-700 dark:text-gray-100">
+              {project._count.todos}
+            </span>
+          </SideBarItem>
+        </Link>
       ))}
     </ul>
   );

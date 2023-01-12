@@ -33,4 +33,36 @@ export const projectsRoutes = createTRPCRouter({
       });
       return project;
     }),
+  getTodos: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const project = await ctx.prisma.project.findFirst({
+        where: {
+          id: input.id,
+        },
+        select: {
+          todos: true,
+        },
+      });
+      return project?.todos;
+    }),
+  getProjectById: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      const project = ctx.prisma.project.findFirst({
+        where: {
+          id: input.id,
+          userId: ctx.session.user.id,
+        },
+      });
+      return project;
+    }),
 });
