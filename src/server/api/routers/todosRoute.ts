@@ -1,6 +1,34 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 export const todosRouter = createTRPCRouter({
+  getInboxTodos: protectedProcedure.query(async ({ ctx }) => {
+    const user = await ctx.prisma.user.findFirst({
+      where: {
+        id: ctx.session.user.id,
+      },
+      select: {
+        Inbox: {
+          select: {
+            todos: true,
+          },
+        },
+        id: true,
+      },
+    });
+    if (!user) return null;
+    let inbox = user.Inbox;
+    if (!inbox) {
+      inbox = await ctx.prisma.inbox.create({
+        data: {
+          userId: user.id,
+        },
+        select: {
+          todos: true,
+        },
+      });
+      return inbox.todos;
+    }
+  }),
   getAllTodos: protectedProcedure.query(({ ctx }) => {
     const todos = ctx.prisma.todo.findMany({
       where: {
