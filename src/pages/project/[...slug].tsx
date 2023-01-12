@@ -10,7 +10,7 @@ import AddTodoForm from "../../featuers/todos/AddTodoForm";
 import TodosList from "../../featuers/todos/TodosList";
 import { api } from "../../utils/api";
 
-const project = () => {
+const Project = () => {
   const router = useRouter();
   const slugs = router.query.slug;
   const slug = (slugs && slugs[0]) ?? "";
@@ -36,4 +36,4 @@ const project = () => {
   );
 };
 
-export default project;
+export default Project;
