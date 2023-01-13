@@ -89,7 +89,7 @@ export const todosRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      let inbox = await ctx.prisma.inbox.findFirst({
+      const inbox = await ctx.prisma.inbox.findFirst({
         where: {
           userId: ctx.session.user.id,
         },
@@ -114,7 +114,7 @@ export const todosRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      let today = await ctx.prisma.today.findFirst({
+      const today = await ctx.prisma.today.findFirst({
         where: {
           userId: ctx.session.user.id,
         },
