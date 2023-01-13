@@ -23,8 +23,8 @@ const Project = () => {
       <main className="min-h-screen">
         <div className="mx-auto w-full max-w-md flex-col gap-4">
           <ProjectHeader />
-          {!isLoading && todos && <ProjectTodosList todos={todos} />}
-          {isLoading && (
+          {todos && <ProjectTodosList todos={todos} />}
+          {isLoading && !todos && (
             <div className="h-52 w-full">
               <Loader />
             </div>

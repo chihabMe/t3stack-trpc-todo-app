@@ -18,8 +18,8 @@ const Today: NextPage = () => {
           <h1 className="py-4 text-xl capitalize text-gray-700 dark:text-gray-200">
             today
           </h1>
-          {!isLoading && todos && <TodosList path="today" todos={todos} />}
-          {isLoading && (
+          {todos && <TodosList path="today" todos={todos} />}
+          {isLoading && !todos && (
             <div className="h-52 w-full">
               <Loader />
             </div>
