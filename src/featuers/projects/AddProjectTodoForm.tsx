@@ -75,7 +75,7 @@ const AddProjectTodoForm = () => {
         onChange={(e) => {
           setTodoBody(e.currentTarget.value);
         }}
-        className="textarea-primary textarea resize-none text-primary"
+        className="textarea-primary textarea resize-none text-gray-800 dark:text-gray-200"
         placeholder="task..."
       ></textarea>
       <div className=" flex  justify-end gap-4 py-4">
