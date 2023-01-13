@@ -10,8 +10,10 @@ const ProjectHeader = () => {
     id: slug,
   });
   return (
-    <div>
-      <h1>name:{project?.name}</h1>
+    <div className="my-2 py-2">
+      <h1 className="text-xl font-medium capitalize text-gray-800 dark:text-gray-200">
+        {project?.name}
+      </h1>
     </div>
   );
 };

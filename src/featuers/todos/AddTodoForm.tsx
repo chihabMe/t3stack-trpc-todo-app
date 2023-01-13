@@ -61,15 +61,17 @@ const AddTodoForm = ({ path }: Props) => {
   // }, [isLoading, isSuccess]);
   if (!showInput)
     return (
-      <button
-        className="btn-primary btn mx-6 my-6 flex h-8 !min-h-[15px] items-center  gap-2"
-        onClick={() => {
-          setShowInput(true);
-        }}
-      >
-        <PlusIcon className="h-5 w-5 text-white" />
-        <span className="text-xs  ">add a task</span>
-      </button>
+      <div className="px-2">
+        <button
+          className="btn-primary btn mx-auto   my-6 flex h-8 !min-h-[15px] w-full max-w-xs items-center  gap-2"
+          onClick={() => {
+            setShowInput(true);
+          }}
+        >
+          <PlusIcon className="h-5 w-5 text-white" />
+          <span className="text-xs  ">add a task</span>
+        </button>
+      </div>
     );
   return (
     <form

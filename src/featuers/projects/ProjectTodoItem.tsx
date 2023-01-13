@@ -63,8 +63,10 @@ const TodoItem = ({ body, id, done, created }: Props) => {
       <motion.li
         initial={{
           opacity: 0,
+          scale: 0.95,
+          y: 10,
         }}
-        animate={{ opacity: 1 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{
           opacity: 0,
           scale: 0.9,
@@ -74,15 +76,23 @@ const TodoItem = ({ body, id, done, created }: Props) => {
         }}
         className=" h-8  "
       >
-        <div className="flex  py-2 text-gray-700 dark:text-gray-100  ">
+        <div className="flex py-2   active:scale-[0.99]  ">
           <div
             onClick={() => {
               toggleDone();
             }}
             className="  flex w-full "
           >
-            {done && <del>{body}</del>}
-            {!done && <span>{body}</span>}
+            {done && (
+              <del className="  text-primary">
+                <span className="text-gray-600 dark:text-gray-400 ">
+                  {body}
+                </span>
+              </del>
+            )}
+            {!done && (
+              <span className="text-gray-700 dark:text-gray-100 ">{body}</span>
+            )}
           </div>
           <div
             className="  rounded-md bg-red-400 p-1 text-center text-sm !text-white  outline-2 outline-red-300 hover:outline"
