@@ -23,11 +23,15 @@ export const todosRouter = createTRPCRouter({
           userId: user.id,
         },
         select: {
-          todos: true,
+          todos: {
+            orderBy: {
+              created: "asc",
+            },
+          },
         },
       });
-      return inbox.todos;
     }
+    return inbox.todos;
   }),
   getTodayTodos: protectedProcedure.query(async ({ ctx }) => {
     const user = await ctx.prisma.user.findFirst({
@@ -37,7 +41,11 @@ export const todosRouter = createTRPCRouter({
       select: {
         Today: {
           select: {
-            todos: true,
+            todos: {
+              orderBy: {
+                created: "asc",
+              },
+            },
           },
         },
         id: true,
@@ -51,10 +59,13 @@ export const todosRouter = createTRPCRouter({
           userId: user.id,
         },
         select: {
-          todos: true,
+          todos: {
+            orderBy: {
+              created: "asc",
+            },
+          },
         },
       });
-      console.log(today.todos);
     }
     return today.todos;
   }),
@@ -146,7 +157,6 @@ export const todosRouter = createTRPCRouter({
           id: input.projectId,
         },
       });
-      console.log(project);
       if (!project) return null;
       const todo = ctx.prisma.todo.create({
         data: {
@@ -156,7 +166,6 @@ export const todosRouter = createTRPCRouter({
           done: false,
         },
       });
-      console.log(todo);
       return todo;
     }),
   removeTodo: protectedProcedure
