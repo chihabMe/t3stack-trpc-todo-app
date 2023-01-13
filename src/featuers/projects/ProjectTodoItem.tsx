@@ -38,16 +38,16 @@ const TodoItem = ({ body, id, done, created }: Props) => {
   };
   const deleteTodoHandler = () => {
     setShowDeleteAlert(true);
-    // const todos = utils.todos.getAllTodos.getData();
-    // utils.todos.getAllTodos.setData(
-    //   undefined,
-    //   todos?.filter((todo) => todo.id != id)
-    // );
+    const todos = utils.todos.getAllTodosByProject.getData({ projectId: slug });
+    utils.todos.getAllTodosByProject.setData(
+      { projectId: slug },
+      todos?.filter((todo) => todo.id != id)
+    );
     deleteTodo(
       { id },
       {
         onSuccess(input) {
-          utils.todos.getAllTodosByProject.invalidate({ projectId: slug });
+          // utils.todos.getAllTodosByProject.invalidate({ projectId: slug });
         },
       }
     );
