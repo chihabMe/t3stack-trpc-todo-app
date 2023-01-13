@@ -22,27 +22,6 @@ const AddProjectTodoForm = () => {
   const todoSubmitHandler = (e: FormEvent) => {
     e.preventDefault();
     if (todoBody.trim().length >= 1) {
-      const todos = utils.todos.getAllTodosByProject.getData({
-        projectId: slug,
-      });
-      const newTodo: Todo = {
-        body: todoBody,
-        created: new Date(),
-        updated: new Date(),
-        id: new Date().toDateString(),
-        done: false,
-        projectId: slug,
-        userId: "1",
-      };
-      if (todos)
-        utils.todos.getAllTodosByProject.setData({ projectId: slug }, [
-          ...todos,
-          newTodo,
-        ]);
-      else
-        utils.todos.getAllTodosByProject.setData({ projectId: slug }, [
-          newTodo,
-        ]);
       setTodoBody("");
       addTodo(
         {
@@ -51,7 +30,20 @@ const AddProjectTodoForm = () => {
         },
         {
           async onSuccess(input) {
-            utils.todos.getAllTodosByProject.invalidate({ projectId: slug });
+            const todos = utils.todos.getAllTodosByProject.getData({
+              projectId: slug,
+            });
+            if (input) {
+              if (todos)
+                utils.todos.getAllTodosByProject.setData({ projectId: slug }, [
+                  ...todos,
+                  input,
+                ]);
+              else
+                utils.todos.getAllTodosByProject.setData({ projectId: slug }, [
+                  input,
+                ]);
+            }
           },
         }
       );

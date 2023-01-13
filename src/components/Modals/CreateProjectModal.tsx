@@ -32,7 +32,7 @@ const CreateProjectModal = () => {
         <PlusIcon className="h-4 w-4 text-white" />
       </label>
       <PortalWrapper id="modal">
-        <input type="checkbox" id="my-modal" className="modal-toggle" />
+        <input type="checkbox" id="my-modal" className="modal-toggle " />
         <div className="modal ">
           <div className="modal-box p-8">
             <form onSubmit={createProjectSubmitHandler} action="">

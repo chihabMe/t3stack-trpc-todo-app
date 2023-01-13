@@ -8,27 +8,27 @@ import Header from "../components/ui/Header";
 import { api } from "../utils/api";
 import Loader from "../components/ui/Loader";
 
-const Home: NextPage = () => {
-  const { data: todos, isLoading } = api.todos.getInboxTodos.useQuery();
+const Today: NextPage = () => {
+  const { data: todos, isLoading } = api.todos.getTodayTodos.useQuery();
   return (
     <ProtectedRoute>
       <Header />
       <main className="min-h-screen">
         <div className="mx-auto w-full max-w-lg flex-col gap-4">
           <h1 className="py-4 text-xl capitalize text-gray-700 dark:text-gray-200">
-            inbox
+            today
           </h1>
-          {!isLoading && todos && <TodosList path="inbox" todos={todos} />}
+          {!isLoading && todos && <TodosList path="today" todos={todos} />}
           {isLoading && (
             <div className="h-52 w-full">
               <Loader />
             </div>
           )}
-          <AddTodoForm path="inbox" />
+          <AddTodoForm path="today" />
         </div>
       </main>
     </ProtectedRoute>
   );
 };
 
-export default Home;
+export default Today;

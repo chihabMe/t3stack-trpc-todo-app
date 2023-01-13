@@ -29,16 +29,34 @@ export const todosRouter = createTRPCRouter({
       return inbox.todos;
     }
   }),
-  getAllTodos: protectedProcedure.query(({ ctx }) => {
-    const todos = ctx.prisma.todo.findMany({
+  getTodayTodos: protectedProcedure.query(async ({ ctx }) => {
+    const user = await ctx.prisma.user.findFirst({
       where: {
-        userId: ctx.session.user.id,
+        id: ctx.session.user.id,
       },
-      orderBy: {
-        created: "asc",
+      select: {
+        Today: {
+          select: {
+            todos: true,
+          },
+        },
+        id: true,
       },
     });
-    return todos;
+    if (!user) return null;
+    let today = user.Today;
+    if (!today) {
+      today = await ctx.prisma.today.create({
+        data: {
+          userId: user.id,
+        },
+        select: {
+          todos: true,
+        },
+      });
+      console.log(today.todos);
+    }
+    return today.todos;
   }),
   getAllTodosByProject: protectedProcedure
     .input(
@@ -64,22 +82,57 @@ export const todosRouter = createTRPCRouter({
       });
       return todos;
     }),
-  addTodo: protectedProcedure
+  addTodoToInbox: protectedProcedure
     .input(
       z.object({
         body: z.string(),
       })
     )
-    .mutation(({ ctx, input }) => {
-      const todo = ctx.prisma.todo.create({
+    .mutation(async ({ ctx, input }) => {
+      let inbox = await ctx.prisma.inbox.findFirst({
+        where: {
+          userId: ctx.session.user.id,
+        },
+      });
+      if (!inbox) {
+        return null;
+      }
+      const todo = await ctx.prisma.todo.create({
         data: {
           body: input.body,
-          userId: ctx.session.user.id,
           done: false,
+          userId: ctx.session.user.id,
+          inboxId: inbox.id,
         },
       });
       return todo;
     }),
+  addTodoToToday: protectedProcedure
+    .input(
+      z.object({
+        body: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      let today = await ctx.prisma.today.findFirst({
+        where: {
+          userId: ctx.session.user.id,
+        },
+      });
+      if (!today) {
+        return null;
+      }
+      const todo = await ctx.prisma.todo.create({
+        data: {
+          body: input.body,
+          done: false,
+          userId: ctx.session.user.id,
+          todayId: today.id,
+        },
+      });
+      return todo;
+    }),
+
   addProjectTodo: protectedProcedure
     .input(
       z.object({

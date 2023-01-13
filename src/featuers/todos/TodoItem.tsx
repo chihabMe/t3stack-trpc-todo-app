@@ -8,8 +8,9 @@ interface Props {
   done: boolean;
   id: string;
   created: Date;
+  path: "inbox" | "today";
 }
-const TodoItem = ({ body, id, done, created }: Props) => {
+const TodoItem = ({ body, id, done, created, path }: Props) => {
   const utils = api.useContext();
   const [showDoneAlert, setShowDoneAlert] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
@@ -20,11 +21,33 @@ const TodoItem = ({ body, id, done, created }: Props) => {
   });
   const { mutateAsync: deleteTodo } = api.todos.removeTodo.useMutation();
   const toggleDone = () => {
-    const todos = utils.todos.getAllTodos.getData();
-    utils.todos.getAllTodos.setData(
-      undefined,
-      todos?.map((todo) => (todo.id != id ? todo : { ...todo, done: !done }))
-    );
+    const todos =
+      path == "inbox"
+        ? utils.todos.getInboxTodos.getData()
+        : utils.todos.getTodayTodos.getData();
+    if (path == "inbox") {
+      utils.todos.getInboxTodos.setData(
+        undefined,
+        todos?.map((todo) => {
+          if (todo.id != id) return todo;
+          else {
+            todo.done = !todo.done;
+            return todo;
+          }
+        })
+      );
+    } else {
+      utils.todos.getTodayTodos.setData(
+        undefined,
+        todos?.map((todo) => {
+          if (todo.id != id) return todo;
+          else {
+            todo.done = !todo.done;
+            return todo;
+          }
+        })
+      );
+    }
     markAdDone(
       { done: !done, id },
       {

@@ -15,7 +15,7 @@ const Alert = ({
   }, []);
   return (
     <div className="alert fixed  left-2 bottom-2 max-w-xs rounded-md shadow-lg">
-      <div className="text-sm text-gray-800">
+      <div className="text-sm text-gray-800 dark:text-gray-200">
         <span>{text}</span>
       </div>
     </div>

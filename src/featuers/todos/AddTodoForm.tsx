@@ -4,32 +4,23 @@ import React, { FormEvent, useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
 import Loader from "../../components/ui/Loader";
 import { api } from "../../utils/api";
-
-const AddTodoForm = () => {
+interface Props {
+  path: "today" | "inbox";
+}
+const AddTodoForm = ({ path }: Props) => {
   const utils = api.useContext();
   const [showInput, setShowInput] = useState(false);
   const {
     mutateAsync: addTodo,
     isSuccess,
     isLoading,
-  } = api.todos.addTodo.useMutation();
+  } = path == "inbox"
+    ? api.todos.addTodoToInbox.useMutation()
+    : api.todos.addTodoToToday.useMutation();
   const [todoBody, setTodoBody] = useState("");
   const todoSubmitHandler = (e: FormEvent) => {
     e.preventDefault();
     if (todoBody.trim().length >= 1) {
-      const todos = utils.todos.getAllTodos.getData();
-      const newTodo: Todo = {
-        body: todoBody,
-        created: new Date(),
-        updated: new Date(),
-        id: new Date().toDateString(),
-        done: false,
-        projectId: "1",
-        userId: "1",
-      };
-      if (todos)
-        utils.todos.getAllTodos.setData(undefined, [...todos, newTodo]);
-      else utils.todos.getAllTodos.setData(undefined, [newTodo]);
       setTodoBody("");
       addTodo(
         {
@@ -37,7 +28,28 @@ const AddTodoForm = () => {
         },
         {
           async onSuccess(input) {
-            utils.todos.invalidate();
+            if (input) {
+              const todos =
+                path == "inbox"
+                  ? utils.todos.getInboxTodos.getData()
+                  : utils.todos.getTodayTodos.getData();
+              if (path == "inbox") {
+                if (todos)
+                  utils.todos.getInboxTodos.setData(undefined, [
+                    ...todos,
+                    input,
+                  ]);
+                else utils.todos.getInboxTodos.setData(undefined, [input]);
+              } else {
+                if (todos)
+                  utils.todos.getTodayTodos.setData(undefined, [
+                    ...todos,
+                    input,
+                  ]);
+                else utils.todos.getTodayTodos.setData(undefined, [input]);
+              }
+              // utils.todos.invalidate();
+            }
           },
         }
       );
@@ -69,7 +81,7 @@ const AddTodoForm = () => {
         onChange={(e) => {
           setTodoBody(e.currentTarget.value);
         }}
-        className="textarea-primary textarea resize-none text-primary"
+        className="textarea-primary textarea resize-none text-gray-800 dark:text-gray-200"
         placeholder="task..."
       ></textarea>
       <div className=" flex  justify-end gap-4 py-4">
