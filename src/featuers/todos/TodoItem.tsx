@@ -16,7 +16,7 @@ const TodoItem = ({ body, id, done, created, path }: Props) => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const { mutateAsync: markAdDone, mutate } = api.todos.markAsDone.useMutation({
     onSuccess(input) {
-      utils.todos.invalidate();
+      // utils.todos.invalidate();
     },
   });
   const { mutateAsync: deleteTodo } = api.todos.removeTodo.useMutation();
@@ -28,24 +28,16 @@ const TodoItem = ({ body, id, done, created, path }: Props) => {
     if (path == "inbox") {
       utils.todos.getInboxTodos.setData(
         undefined,
-        todos?.map((todo) => {
-          if (todo.id != id) return todo;
-          else {
-            todo.done = !todo.done;
-            return todo;
-          }
-        })
+        todos?.map((todo) =>
+          todo.id != id ? todo : { ...todo, done: !todo.done }
+        )
       );
     } else {
       utils.todos.getTodayTodos.setData(
         undefined,
-        todos?.map((todo) => {
-          if (todo.id != id) return todo;
-          else {
-            todo.done = !todo.done;
-            return todo;
-          }
-        })
+        todos?.map((todo) =>
+          todo.id != id ? todo : { ...todo, done: !todo.done }
+        )
       );
     }
     markAdDone(
@@ -68,7 +60,7 @@ const TodoItem = ({ body, id, done, created, path }: Props) => {
       { id },
       {
         onSuccess(input) {
-          utils.todos.invalidate();
+          // utils.todos.invalidate();
         },
       }
     );
