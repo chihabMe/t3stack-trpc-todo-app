@@ -1,4 +1,9 @@
-import { NextPageContext, type NextPage } from "next";
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  NextPageContext,
+  type NextPage,
+} from "next";
 
 import TodosList from "../featuers/todos/TodosList";
 import AddTodoForm from "../featuers/todos/AddTodoForm";
@@ -7,11 +12,12 @@ import ProtectedRoute from "../components/wrappers/ProtectedRoute";
 import Header from "../components/ui/Header";
 import { api } from "../utils/api";
 import Loader from "../components/ui/Loader";
+import { getSession } from "next-auth/react";
 
 const Home: NextPage = () => {
   const { data: todos, isLoading } = api.todos.getInboxTodos.useQuery();
   return (
-    <ProtectedRoute>
+    <>
       <Header />
       <main className="min-h-screen">
         <div className="mx-auto w-full max-w-lg flex-col gap-4">
@@ -27,8 +33,24 @@ const Home: NextPage = () => {
           <AddTodoForm path="inbox" />
         </div>
       </main>
-    </ProtectedRoute>
+    </>
   );
 };
 
 export default Home;
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const session = await getSession();
+  if (!session?.user)
+    return {
+      props: {},
+      redirect: {
+        destination: "/login",
+      },
+    };
+
+  return {
+    props: {},
+  };
+};

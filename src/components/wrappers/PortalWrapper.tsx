@@ -8,7 +8,8 @@ const PortalWrapper = ({
   id: string;
   children: ReactNode;
 }) => {
-  const element = document.getElementById(id);
+  if (typeof window == "undefined") return <>{children}</>;
+  const element = document?.getElementById(id);
   if (!element) return <>{children}</>;
   return createPortal(children, element);
 };
