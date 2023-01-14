@@ -1,3 +1,4 @@
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import Header from "../../components/ui/Header";
@@ -9,6 +10,7 @@ import ProjectTodosList from "../../featuers/projects/projectTodosList";
 import AddTodoForm from "../../featuers/todos/AddTodoForm";
 import TodosList from "../../featuers/todos/TodosList";
 import { api } from "../../utils/api";
+import { authRequired } from "../../utils/authRequired";
 
 const Project = () => {
   const router = useRouter();
@@ -18,7 +20,7 @@ const Project = () => {
     projectId: slug,
   });
   return (
-    <ProtectedRoute>
+    <>
       <Header />
       <main className="min-h-screen">
         <div className="mx-auto w-full max-w-md flex-col gap-4">
@@ -32,8 +34,18 @@ const Project = () => {
           <AddProjectTodoForm />
         </div>
       </main>
-    </ProtectedRoute>
+    </>
   );
 };
 
 export default Project;
+
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  return authRequired(context, () => {
+    return {
+      props: {},
+    };
+  });
+};

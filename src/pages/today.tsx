@@ -1,4 +1,9 @@
-import { NextPageContext, type NextPage } from "next";
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  NextPageContext,
+  type NextPage,
+} from "next";
 
 import TodosList from "../featuers/todos/TodosList";
 import AddTodoForm from "../featuers/todos/AddTodoForm";
@@ -7,11 +12,12 @@ import ProtectedRoute from "../components/wrappers/ProtectedRoute";
 import Header from "../components/ui/Header";
 import { api } from "../utils/api";
 import Loader from "../components/ui/Loader";
+import { authRequired } from "../utils/authRequired";
 
 const Today: NextPage = () => {
   const { data: todos, isLoading } = api.todos.getTodayTodos.useQuery();
   return (
-    <ProtectedRoute>
+    <>
       <Header />
       <main className="min-h-screen">
         <div className="mx-auto w-full max-w-lg flex-col gap-4">
@@ -27,8 +33,18 @@ const Today: NextPage = () => {
           <AddTodoForm path="today" />
         </div>
       </main>
-    </ProtectedRoute>
+    </>
   );
 };
 
 export default Today;
+
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  return authRequired(context, () => {
+    return {
+      props: {},
+    };
+  });
+};

@@ -13,6 +13,7 @@ import Header from "../components/ui/Header";
 import { api } from "../utils/api";
 import Loader from "../components/ui/Loader";
 import { getSession } from "next-auth/react";
+import { authRequired } from "../utils/authRequired";
 
 const Home: NextPage = () => {
   const { data: todos, isLoading } = api.todos.getInboxTodos.useQuery();
@@ -41,16 +42,9 @@ export default Home;
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  const session = await getSession();
-  if (!session?.user)
+  return authRequired(context, () => {
     return {
       props: {},
-      redirect: {
-        destination: "/login",
-      },
     };
-
-  return {
-    props: {},
-  };
+  });
 };
