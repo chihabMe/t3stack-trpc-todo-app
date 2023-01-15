@@ -16,11 +16,11 @@ export const todosRouter = createTRPCRouter({
         id: true,
       },
     });
-    if (!user) throw new TRPCError({
-      code:"UNAUTHORIZED",
-      message:"unauthorized user"
-
-    });
+    if (!user)
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "unauthorized user",
+      });
     let inbox = user.Inbox;
     if (!inbox) {
       inbox = await ctx.prisma.inbox.create({
@@ -147,9 +147,9 @@ export const todosRouter = createTRPCRouter({
         },
       });
       if (!today) {
-        trhow new TRPCError({
-          code:"BAD_REQUEST",
-          message:"this user doesn't have a today todos "
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "this user doesn't have a today todos ",
         });
       }
       const todo = await ctx.prisma.todo.create({
@@ -176,10 +176,11 @@ export const todosRouter = createTRPCRouter({
           id: input.projectId,
         },
       });
-      if (!project) throw new TRPCError({
-        code:"BAD_REQUEST",
-        message:"this project doesn't exist"
-      });
+      if (!project)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "this project doesn't exist",
+        });
       const todo = ctx.prisma.todo.create({
         data: {
           body: input.body,
