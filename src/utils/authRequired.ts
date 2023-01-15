@@ -6,7 +6,6 @@ export const authRequired = async (
   callback: any
 ) => {
   const session = await getSession(context);
-  console.log(session);
   if (!session)
     return {
       props: {},
