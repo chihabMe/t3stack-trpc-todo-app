@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 export const todosRouter = createTRPCRouter({
@@ -15,7 +16,11 @@ export const todosRouter = createTRPCRouter({
         id: true,
       },
     });
-    if (!user) return null;
+    if (!user) throw new TRPCError({
+      code:"UNAUTHORIZED",
+      message:"unauthorized user"
+
+    });
     let inbox = user.Inbox;
     if (!inbox) {
       inbox = await ctx.prisma.inbox.create({
@@ -51,7 +56,11 @@ export const todosRouter = createTRPCRouter({
         id: true,
       },
     });
-    if (!user) return null;
+    if (!user)
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "unauthorized user",
+      });
     let today = user.Today;
     if (!today) {
       today = await ctx.prisma.today.create({
@@ -81,7 +90,11 @@ export const todosRouter = createTRPCRouter({
           id: input.projectId,
         },
       });
-      if (!project) return null;
+      if (!project)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "this project does'nt exists",
+        });
       const todos = await ctx.prisma.todo.findMany({
         where: {
           userId: ctx.session.user.id,
@@ -106,7 +119,10 @@ export const todosRouter = createTRPCRouter({
         },
       });
       if (!inbox) {
-        return null;
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "this user doesn't have a inbox",
+        });
       }
       const todo = await ctx.prisma.todo.create({
         data: {
@@ -131,7 +147,10 @@ export const todosRouter = createTRPCRouter({
         },
       });
       if (!today) {
-        return null;
+        trhow new TRPCError({
+          code:"BAD_REQUEST",
+          message:"this user doesn't have a today todos "
+        });
       }
       const todo = await ctx.prisma.todo.create({
         data: {
@@ -157,7 +176,10 @@ export const todosRouter = createTRPCRouter({
           id: input.projectId,
         },
       });
-      if (!project) return null;
+      if (!project) throw new TRPCError({
+        code:"BAD_REQUEST",
+        message:"this project doesn't exist"
+      });
       const todo = ctx.prisma.todo.create({
         data: {
           body: input.body,
