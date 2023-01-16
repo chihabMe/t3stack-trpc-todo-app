@@ -17,7 +17,6 @@ const SideBar = () => {
 
   const fullPage = isOpen ? "fixed h-screen w-full z-20" : hide;
 
-  console.log("OPEN:", isOpen);
   return (
     <>
       <label
